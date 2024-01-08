@@ -1,34 +1,37 @@
+
 // Adjascency List representation in C
 
 #include <stdio.h>
 #include <stdlib.h>
 #define V 4
-struct node {
+typedef struct Node{
   int vertex;
-  struct node* next;
-};
+  struct Node* next;
+}Node;
 
 
-struct Graph {
+typedef struct {
   int numVertices;
-  struct node** adjLists;
-};
+  struct Node** adjLists;
+}Graph;
 
 // Create a node
-struct node* createNode(int v) {
-  struct node* newNode = malloc(sizeof(struct node));
+Node* createNode(int v) {
+  Node* newNode = (Node*)malloc(sizeof(Node));
   newNode->vertex = v;
   newNode->next = NULL;
   return newNode;
 }
 
 // Create a graph
-struct Graph* createAGraph(int vertices) {
-  struct Graph* graph = malloc(sizeof(struct Graph));
+Graph* createAGraph(int vertices) {
+  Graph* graph = (Graph*)malloc(sizeof(Graph));
   graph->numVertices = vertices;
 
   graph->adjLists = malloc(vertices * sizeof(struct node*));
 
+  //assign memory to adjLists
+  //adjLists:list of list of nodes 
   int i;
   for (i = 0; i < vertices; i++)
     graph->adjLists[i] = NULL;
@@ -37,9 +40,9 @@ struct Graph* createAGraph(int vertices) {
 }
 
 // Add edge
-void addEdge(struct Graph* graph, int s, int d) {
+void addEdge(Graph* graph, int s, int d) {
   // Add edge from s to d
-  struct node* newNode = createNode(d);
+  Node* newNode = createNode(d);
   newNode->next = graph->adjLists[s];
   graph->adjLists[s] = newNode;
 
@@ -49,11 +52,11 @@ void addEdge(struct Graph* graph, int s, int d) {
   graph->adjLists[d] = newNode;
 }
 
-// Print the graph
-void printGraph(struct Graph* graph) {
+// Print the graph as lists
+void printLists(Graph* graph) {
   int v;
   for (v = 0; v < graph->numVertices; v++) {
-    struct node* temp = graph->adjLists[v];
+    Node* temp = graph->adjLists[v];
     printf("\n Vertex %d\n: ", v);
     while (temp) {
       printf("%d -> ", temp->vertex);
@@ -93,7 +96,7 @@ void printAdjMatrix(int arr[][V]) {
 }  
 
 int main() {
-  struct Graph* graph = createAGraph(4);
+  Graph* graph = createAGraph(4);
   addEdge(graph, 0, 1);
   addEdge(graph, 0, 2);
   addEdge(graph, 0, 3);
