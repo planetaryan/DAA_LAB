@@ -102,7 +102,7 @@ int main() {
   addEdge(graph, 0, 3);
   addEdge(graph, 1, 2);
 
-  printGraph(graph);
+  printLists(graph);
 
    int adjMatrix[V][V];  
   
