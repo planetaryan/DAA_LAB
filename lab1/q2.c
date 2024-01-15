@@ -12,7 +12,7 @@ typedef struct Node{
 
 typedef struct {
   int numVertices;
-  struct Node** adjLists;
+  Node** adjLists;
 }Graph;
 
 // Create a node
@@ -28,7 +28,7 @@ Graph* createAGraph(int vertices) {
   Graph* graph = (Graph*)malloc(sizeof(Graph));
   graph->numVertices = vertices;
 
-  graph->adjLists = malloc(vertices * sizeof(struct node*));
+  graph->adjLists = malloc(vertices * sizeof(Node*));
 
   //assign memory to adjLists
   //adjLists:list of list of nodes 
@@ -43,8 +43,11 @@ Graph* createAGraph(int vertices) {
 void addEdge(Graph* graph, int s, int d) {
   // Add edge from s to d
   Node* newNode = createNode(d);
+  
   newNode->next = graph->adjLists[s];
+  //next of newNode points to adjList of vertex s
   graph->adjLists[s] = newNode;
+  //newNode becomes head node for adjacency list of vertex s
 
   // Add edge from d to s
   newNode = createNode(s);
@@ -68,7 +71,7 @@ void printLists(Graph* graph) {
 
 
 /* function to initialize the matrix to zero */  
-void init(int arr[][V]) {  
+void initialize(int arr[][V]) {  
   int i, j;  
   for (i = 0; i < V; i++)  
     for (j = 0; j < V; j++)  
@@ -97,26 +100,40 @@ void printAdjMatrix(int arr[][V]) {
 
 int main() {
   Graph* graph = createAGraph(4);
-  addEdge(graph, 0, 1);
-  addEdge(graph, 0, 2);
-  addEdge(graph, 0, 3);
-  addEdge(graph, 1, 2);
 
-  printLists(graph);
+  int adjMatrix[V][V];  
 
-   int adjMatrix[V][V];  
-  
-  init(adjMatrix);  
-  insertEdge(adjMatrix, 0, 1);  
-  insertEdge(adjMatrix, 0, 2);  
-  insertEdge(adjMatrix, 1, 2);  
-  insertEdge(adjMatrix, 2, 0);  
-  insertEdge(adjMatrix, 2, 3);  
-  
-  printAdjMatrix(adjMatrix);  
+  initialize(adjMatrix); 
+
+while(1){
+    printf("from node ");
+    int d;
+    scanf("%d", &d);
+
+    printf("to node ");
+    int s;
+    scanf("%d", &s);
+
+    getchar(); 
+
+    printf("continue? ");
+    char ch;
+    scanf(" %c", &ch); 
+
+    addEdge(graph, d, s);
+    insertEdge(adjMatrix, d, s);
+
+    if(ch != 'y' && ch != 'Y'){
+        break;
+    }
+}
+
+printLists(graph);
+printf("\n");
+printAdjMatrix(adjMatrix);  
   
 
-  return 0;
+return 0;
 }
 
 
